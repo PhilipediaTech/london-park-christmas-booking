@@ -12,7 +12,7 @@
             <h3>🎄 London Community Park 🎄</h3>
             <p>Making Christmas Magical Since 1990</p>
             <p>📍 123 Park Lane, London, UK</p>
-            <p>📞 +44 20 1234 5678 | ✉️ info@londonpark.com</p>
+            <p>📞 +44 73 5015 7849 | ✉️ info@londonpark.com  |  philipediatech@gmail.com</p>
             
             <div class="footer-links">
                 <a href="<?php echo SITE_URL; ?>/index.php">Home</a>

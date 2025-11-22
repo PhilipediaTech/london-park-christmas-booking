@@ -5,18 +5,25 @@
 
 /* ===== CSS Variables ===== */
 :root {
-    --christmas-red: #c41e3a;
-    --christmas-red-dark: #9a1830;
-    --christmas-green: #165b33;
-    --christmas-green-light: #1e7b46;
-    --gold: #ffd700;
-    --gold-dark: #daa520;
-    --snow-white: #fffafa;
-    --frost-blue: #e8f4f8;
-    --dark-text: #2c3e50;
-    --light-text: #ffffff;
-    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+    /* Primary Colors - Teal/Turquoise */
+    --christmas-red: #FF6B6B;           /* Coral Red */
+    --christmas-red-dark: #EE5A6F;      /* Deep Coral */
+    --christmas-green: #0E8388;         /* Deep Teal */
+    --christmas-green-light: #2E97A7;   /* Bright Teal */
+    
+    /* Accent Colors */
+    --gold: #FFD93D;                    /* Bright Yellow Gold */
+    --gold-dark: #F4C430;               /* Saffron Gold */
+    
+    /* Neutral Colors */
+    --snow-white: #FFFFFF;
+    --frost-blue: #E8F6F8;              /* Light Cyan */
+    --dark-text: #2C3E50;
+    --light-text: #FFFFFF;
+    
+    /* Shadows & Effects */
+    --shadow: 0 4px 15px rgba(14, 131, 136, 0.15);
+    --shadow-lg: 0 10px 30px rgba(14, 131, 136, 0.2);
     --transition: all 0.3s ease;
 }
 
@@ -34,7 +41,11 @@ html {
 
 body {
     font-family: 'Poppins', 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #165b33 100%);
+     background: 
+        linear-gradient(135deg, rgba(14, 131, 136, 0.92) 0%, rgba(46, 151, 167, 0.88) 50%, rgba(14, 131, 136, 0.92) 100%),
+        url('https://images.unsplash.com/photo-1512389142860-9c449e58a814?w=1920&q=80') center center / cover fixed;
+    background-attachment: fixed;
+    background-attachment: fixed;
     background-attachment: fixed;
     min-height: 100vh;
     color: var(--dark-text);
@@ -178,13 +189,14 @@ body::before {
 
 /* ===== Christmas Lights ===== */
 .christmas-lights {
-    height: 25px;
+   height: 30px;
     background: repeating-linear-gradient(
         90deg,
-        var(--christmas-red) 0px, var(--christmas-red) 20px,
-        var(--christmas-green) 20px, var(--christmas-green) 40px,
-        var(--gold) 40px, var(--gold) 60px,
-        #3498db 60px, #3498db 80px
+        #FF6B6B 0px, #FF6B6B 20px,
+        #0E8388 20px, #0E8388 40px,
+        #FFD93D 40px, #FFD93D 60px,
+        #A8E6CF 60px, #A8E6CF 80px,
+        #FFA07A 80px, #FFA07A 100px
     );
     animation: lights-blink 2s ease-in-out infinite alternate;
 }
