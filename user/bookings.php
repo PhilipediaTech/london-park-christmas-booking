@@ -1,13 +1,12 @@
 <?php
 /**
- * User Bookings Page
+ * User Bookings Page - Updated with Payment & Cancel Options
  * London Community Park Christmas Event Booking System
  */
 
 $pageTitle = 'My Bookings';
 require_once '../includes/header.php';
 
-// Require user login
 requireLogin();
 
 // Get user's bookings
@@ -22,11 +21,10 @@ $stmt->execute([$_SESSION['user_id']]);
 $bookings = $stmt->fetchAll();
 ?>
 
-<!-- Page Header -->
 <section class="hero" style="padding: 40px 20px;">
     <div class="container">
         <h1>🎫 My Bookings</h1>
-        <p>View all your Christmas event bookings</p>
+        <p>View and manage your Christmas event bookings</p>
     </div>
 </section>
 
@@ -39,15 +37,13 @@ $bookings = $stmt->fetchAll();
             <div class="card-body" style="text-align: center; padding: 60px;">
                 <p style="font-size: 5rem; margin-bottom: 20px;">🎭</p>
                 <h2>No Bookings Yet</h2>
-                <p style="color: #666; margin: 20px 0;">You haven't made any bookings yet. Explore our Christmas events and book your experience!</p>
-                <a href="<?php echo SITE_URL; ?>/events.php" class="btn btn-primary">
-                    🎪 Browse Events
-                </a>
+                <p style="color: #666; margin: 20px 0;">Start exploring our Christmas events!</p>
+                <a href="<?php echo SITE_URL; ?>/events.php" class="btn btn-primary">🎪 Browse Events</a>
             </div>
         </div>
     <?php else: ?>
         
-        <!-- Bookings Summary -->
+        <!-- Stats -->
         <div class="stats-grid" style="margin-bottom: 30px;">
             <div class="stat-card">
                 <div class="stat-number"><?php echo count($bookings); ?></div>
@@ -55,19 +51,13 @@ $bookings = $stmt->fetchAll();
             </div>
             <div class="stat-card green">
                 <div class="stat-number">
-                    <?php 
-                    $confirmed = array_filter($bookings, fn($b) => $b['booking_status'] === 'confirmed');
-                    echo count($confirmed);
-                    ?>
+                    <?php echo count(array_filter($bookings, fn($b) => $b['booking_status'] === 'confirmed' && $b['payment_status'] === 'paid')); ?>
                 </div>
-                <div class="stat-label">Confirmed</div>
+                <div class="stat-label">Confirmed & Paid</div>
             </div>
             <div class="stat-card gold">
                 <div class="stat-number">
-                    <?php 
-                    $totalSpent = array_sum(array_column($bookings, 'total_amount'));
-                    echo formatCurrency($totalSpent);
-                    ?>
+                    <?php echo formatCurrency(array_sum(array_map(fn($b) => $b['payment_status'] === 'paid' ? $b['total_amount'] : 0, $bookings))); ?>
                 </div>
                 <div class="stat-label">Total Spent</div>
             </div>
@@ -76,32 +66,42 @@ $bookings = $stmt->fetchAll();
         <!-- Bookings List -->
         <?php foreach ($bookings as $booking): ?>
             <?php
-            // Get booking details
-            $detailStmt = $pdo->prepare("SELECT * FROM booking_details WHERE booking_id = ?");
-            $detailStmt->execute([$booking['booking_id']]);
-            $details = $detailStmt->fetchAll();
+            $stmt = $pdo->prepare("SELECT * FROM booking_details WHERE booking_id = ?");
+            $stmt->execute([$booking['booking_id']]);
+            $details = $stmt->fetchAll();
             
-            // Determine if upcoming or past
             $isPast = strtotime($booking['event_date']) < strtotime('today');
+            $isCancelled = $booking['booking_status'] === 'cancelled';
+            $needsPayment = $booking['payment_status'] !== 'paid' && !$isCancelled;
             
-            // Status badge class
+            // Status colors
             $statusClass = 'badge-info';
+            $paymentClass = 'badge-warning';
+            
             if ($booking['booking_status'] === 'confirmed') $statusClass = 'badge-success';
-            elseif ($booking['booking_status'] === 'cancelled') $statusClass = 'badge-danger';
+            elseif ($isCancelled) $statusClass = 'badge-danger';
+            
+            if ($booking['payment_status'] === 'paid') $paymentClass = 'badge-success';
+            elseif ($booking['payment_status'] === 'refunded') $paymentClass = 'badge-info';
             ?>
             
-            <div class="card" style="margin-bottom: 25px; <?php echo $isPast ? 'opacity: 0.8;' : ''; ?>">
+            <div class="card" style="margin-bottom: 25px; <?php echo ($isPast || $isCancelled) ? 'opacity: 0.7;' : ''; ?>">
                 <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <div>
-                        <h3 style="color: white; margin: 0;"><?php echo sanitize($booking['event_name']); ?></h3>
-                        <small>Booking Reference: <strong><?php echo sanitize($booking['booking_reference']); ?></strong></small>
+                        <h3 style="color: white; margin: 0; font-size: 1.2rem;">
+                            <?php echo sanitize($booking['event_name']); ?>
+                        </h3>
+                        <small>Ref: <strong><?php echo sanitize($booking['booking_reference']); ?></strong></small>
                     </div>
-                    <div>
-                        <span class="badge <?php echo $statusClass; ?>" style="font-size: 1rem;">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <span class="badge <?php echo $statusClass; ?>">
                             <?php echo ucfirst($booking['booking_status']); ?>
                         </span>
-                        <?php if ($isPast): ?>
-                            <span class="badge badge-warning" style="margin-left: 5px;">Past Event</span>
+                        <span class="badge <?php echo $paymentClass; ?>">
+                            <?php echo ucfirst($booking['payment_status'] ?? 'unpaid'); ?>
+                        </span>
+                        <?php if ($isPast && !$isCancelled): ?>
+                            <span class="badge badge-warning">Past Event</span>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -114,68 +114,66 @@ $bookings = $stmt->fetchAll();
                             <p><strong>📍 Venue:</strong> <?php echo sanitize($booking['venue']); ?></p>
                         </div>
                         <div>
-                            <p><strong>🎫 Total Tickets:</strong> <?php echo $booking['total_tickets']; ?></p>
-                            <p><strong>💰 Total Amount:</strong> <?php echo formatCurrency($booking['total_amount']); ?></p>
-                            <p><strong>📆 Booked On:</strong> <?php echo formatDate($booking['booking_date']); ?></p>
+                            <p><strong>🎫 Tickets:</strong> <?php echo $booking['total_tickets']; ?></p>
+                            <p><strong>💰 Amount:</strong> <?php echo formatCurrency($booking['total_amount']); ?></p>
+                            <p><strong>📆 Booked:</strong> <?php echo formatDate($booking['booking_date']); ?></p>
                         </div>
                     </div>
                     
                     <!-- Ticket Details -->
-                    <div style="background: var(--frost-blue); padding: 15px; border-radius: 10px;">
-                        <h4 style="margin-bottom: 15px; color: var(--christmas-green);">Ticket Details</h4>
-                        <div class="table-container" style="box-shadow: none;">
-                            <table style="font-size: 0.9rem;">
-                                <thead>
-                                    <tr>
-                                        <th>Seat Type</th>
-                                        <th>Ticket Type</th>
-                                        <th>Quantity</th>
-                                        <th>Unit Price</th>
-                                        <th>Subtotal</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($details as $detail): ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo $detail['seat_type'] === 'with_table' ? '💺 With Table' : '🪑 Without Table'; ?>
-                                            </td>
-                                            <td><?php echo ucfirst($detail['ticket_type']); ?></td>
-                                            <td><?php echo $detail['quantity']; ?></td>
-                                            <td><?php echo formatCurrency($detail['unit_price']); ?></td>
-                                            <td><strong><?php echo formatCurrency($detail['subtotal']); ?></strong></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                                <tfoot>
-                                    <tr style="background: var(--christmas-green); color: white;">
-                                        <td colspan="4" style="text-align: right;"><strong>Total:</strong></td>
-                                        <td><strong><?php echo formatCurrency($booking['total_amount']); ?></strong></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                    <div style="background: var(--frost-blue); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <strong>Ticket Details:</strong>
+                        <?php foreach ($details as $detail): ?>
+                            <span style="margin-left: 15px;">
+                                <?php echo ucfirst($detail['ticket_type']); ?> 
+                                (<?php echo $detail['seat_type'] === 'with_table' ? 'Table' : 'Standard'; ?>): 
+                                <?php echo $detail['quantity']; ?>
+                            </span>
+                        <?php endforeach; ?>
                     </div>
                     
-                    <?php if ($booking['adult_photo']): ?>
-                        <div style="margin-top: 15px;">
-                            <p><strong>👤 Adult Photo on file:</strong> ✓ Uploaded</p>
-                        </div>
-                    <?php endif; ?>
+                    <!-- Action Buttons -->
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <?php if ($needsPayment): ?>
+                            <a href="<?php echo SITE_URL; ?>/user/payment.php?booking_id=<?php echo $booking['booking_id']; ?>" 
+                               class="btn btn-success btn-sm">
+                                💳 Pay Now
+                            </a>
+                        <?php endif; ?>
+                        
+                        <?php if ($booking['payment_status'] === 'paid' && !$isCancelled): ?>
+                            <a href="<?php echo SITE_URL; ?>/user/booking_confirmation.php?id=<?php echo $booking['booking_id']; ?>" 
+                               class="btn btn-primary btn-sm">
+                                🎫 View Ticket
+                            </a>
+                            <a href="<?php echo SITE_URL; ?>/user/download_ticket.php?id=<?php echo $booking['booking_id']; ?>" 
+                               class="btn btn-gold btn-sm">
+                                📥 Download PDF
+                            </a>
+                        <?php endif; ?>
+                        
+                        <?php if (!$isPast && !$isCancelled): ?>
+                            <a href="<?php echo SITE_URL; ?>/user/cancel_booking.php?id=<?php echo $booking['booking_id']; ?>" 
+                               class="btn btn-danger btn-sm">
+                                ❌ Cancel
+                            </a>
+                        <?php endif; ?>
+                        
+                        <?php if ($isCancelled): ?>
+                            <span style="color: #666; font-style: italic;">
+                                Cancelled on <?php echo formatDate($booking['cancellation_date']); ?>
+                            </span>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>
         
     <?php endif; ?>
     
-    <!-- Back Button -->
     <div style="margin-top: 30px;">
-        <a href="<?php echo SITE_URL; ?>/user/dashboard.php" class="btn btn-gold">
-            ← Back to Dashboard
-        </a>
-        <a href="<?php echo SITE_URL; ?>/events.php" class="btn btn-primary">
-            🎪 Book More Events
-        </a>
+        <a href="<?php echo SITE_URL; ?>/user/dashboard.php" class="btn btn-gold">← Back to Dashboard</a>
+        <a href="<?php echo SITE_URL; ?>/events.php" class="btn btn-primary">🎪 Book More Events</a>
     </div>
     
 </div>
