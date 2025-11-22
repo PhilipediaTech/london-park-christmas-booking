@@ -1,1 +1,4 @@
-"<?php echo 'Hello, London Park!'; ?>" 
+<?php
+echo "PHP is working!";
+phpinfo();
+?>

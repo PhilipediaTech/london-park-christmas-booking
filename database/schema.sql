@@ -102,12 +102,12 @@ VALUES ('admin', 'admin@londonpark.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro
 
 -- Insert sample Christmas events
 INSERT INTO events (event_name, event_description, event_date, event_time, venue, total_capacity, requires_adult, max_tickets_per_booking, event_image) VALUES
-('Christmas Carol Concert', 'A magical evening of traditional Christmas carols performed by the London Community Choir', '2024-12-18', '19:00:00', 'Indoor Circus Theatre', 500, 0, 8, 'carol_concert.jpg'),
-('Santa\'s Winter Wonderland', 'Meet Santa and enjoy festive activities for the whole family', '2024-12-20', '14:00:00', 'Main Park Area', 300, 1, 8, 'winter_wonderland.jpg'),
-('Sweeney Steam Train Christmas Special', 'A magical journey on our vintage steam train with Christmas treats', '2024-12-21', '16:00:00', 'Sweeney Railway Station', 150, 1, 8, 'steam_train.jpg'),
-('New Year\'s Eve Gala', 'Ring in the New Year with live music, fireworks, and champagne', '2024-12-31', '21:00:00', 'Indoor Circus Theatre', 400, 0, 8, 'new_year_gala.jpg'),
-('Children\'s Christmas Party', 'Fun-filled party with games, entertainment, and presents', '2024-12-22', '11:00:00', 'Park Activity Centre', 200, 1, 8, 'kids_party.jpg'),
-('Christmas Water Sports Festival', 'Winter water sports activities with festive twist', '2024-12-19', '10:00:00', 'Water Sports Centre', 100, 1, 8, 'water_sports.jpg');
+('Christmas Carol Concert', 'A magical evening of traditional Christmas carols performed by the London Community Choir', '2025-12-18', '19:00:00', 'Indoor Circus Theatre', 500, 0, 8, 'carol_concert.jpg'),
+('Santa\'s Winter Wonderland', 'Meet Santa and enjoy festive activities for the whole family', '2025-12-20', '14:00:00', 'Main Park Area', 300, 1, 8, 'winter_wonderland.jpg'),
+('Sweeney Steam Train Christmas Special', 'A magical journey on our vintage steam train with Christmas treats', '2025-12-21', '16:00:00', 'Sweeney Railway Station', 150, 1, 8, 'steam_train.jpg'),
+('New Year\'s Eve Gala', 'Ring in the New Year with live music, fireworks, and champagne', '2025-12-31', '21:00:00', 'Indoor Circus Theatre', 400, 0, 8, 'new_year_gala.jpg'),
+('Children\'s Christmas Party', 'Fun-filled party with games, entertainment, and presents', '2025-12-22', '11:00:00', 'Park Activity Centre', 200, 1, 8, 'kids_party.jpg'),
+('Christmas Water Sports Festival', 'Winter water sports activities with festive twist', '2025-12-19', '10:00:00', 'Water Sports Centre', 100, 1, 8, 'water_sports.jpg');
 
 -- Insert seats for each event
 INSERT INTO seats (event_id, seat_type, total_seats, available_seats) VALUES

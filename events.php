@@ -26,7 +26,7 @@ $events = $stmt->fetchAll();
 <!-- Page Header -->
 <section class="hero" style="padding: 40px 20px;">
     <div class="container">
-        <h1>🎪 Christmas Events 2024 🎪</h1>
+        <h1>🎪 Christmas Events 2025 🎪</h1>
         <p>Discover magical experiences this festive season at London Community Park</p>
     </div>
 </section>
@@ -39,7 +39,7 @@ $events = $stmt->fetchAll();
     <div class="card" style="margin-bottom: 30px;">
         <div class="card-body" style="text-align: center;">
             <p style="margin: 0;">
-                <strong>📅 Event Season:</strong> December 18th - December 31st, 2024 | 
+                <strong>📅 Event Season:</strong> December 18th - December 31st, 2025 | 
                 <strong>🎫 <?php echo count($events); ?></strong> Events Available |
                 <strong>💺</strong> Book up to 8 tickets per event
             </p>

@@ -1,16 +1,55 @@
 /**
  * London Community Park Christmas Event Booking System
- * Main JavaScript File
+ * Main JavaScript File - Updated
  */
 
-// Wait for DOM to be fully loaded
+// Mobile Menu Toggle Function
+function toggleMobileMenu() {
+  const navLinks = document.getElementById("navLinks");
+  const menuBtn = document.querySelector(".mobile-menu-btn");
+
+  if (navLinks) {
+    navLinks.classList.toggle("active");
+    menuBtn.classList.toggle("active");
+  }
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener("click", function (e) {
+  const navLinks = document.getElementById("navLinks");
+  const menuBtn = document.querySelector(".mobile-menu-btn");
+
+  if (navLinks && navLinks.classList.contains("active")) {
+    if (
+      !e.target.closest(".nav-links") &&
+      !e.target.closest(".mobile-menu-btn")
+    ) {
+      navLinks.classList.remove("active");
+      if (menuBtn) menuBtn.classList.remove("active");
+    }
+  }
+});
+
+// Close mobile menu when window is resized to desktop
+window.addEventListener("resize", function () {
+  const navLinks = document.getElementById("navLinks");
+  const menuBtn = document.querySelector(".mobile-menu-btn");
+
+  if (window.innerWidth > 768 && navLinks) {
+    navLinks.classList.remove("active");
+    if (menuBtn) menuBtn.classList.remove("active");
+  }
+});
+
+// DOM Ready
 document.addEventListener("DOMContentLoaded", function () {
   // Auto-hide alerts after 5 seconds
   const alerts = document.querySelectorAll(".alert");
   alerts.forEach(function (alert) {
     setTimeout(function () {
-      alert.style.transition = "opacity 0.5s ease";
+      alert.style.transition = "opacity 0.5s ease, transform 0.5s ease";
       alert.style.opacity = "0";
+      alert.style.transform = "translateY(-10px)";
       setTimeout(function () {
         alert.remove();
       }, 500);
@@ -40,26 +79,11 @@ document.addEventListener("DOMContentLoaded", function () {
       let isValid = true;
 
       requiredFields.forEach(function (field) {
+        removeError(field);
+
         if (!field.value.trim()) {
           isValid = false;
-          field.style.borderColor = "#c41e3a";
-
-          // Add error message if not exists
-          let errorMsg = field.parentNode.querySelector(".error-message");
-          if (!errorMsg) {
-            errorMsg = document.createElement("span");
-            errorMsg.className = "error-message";
-            errorMsg.style.color = "#c41e3a";
-            errorMsg.style.fontSize = "0.85rem";
-            errorMsg.textContent = "This field is required";
-            field.parentNode.appendChild(errorMsg);
-          }
-        } else {
-          field.style.borderColor = "#ddd";
-          const errorMsg = field.parentNode.querySelector(".error-message");
-          if (errorMsg) {
-            errorMsg.remove();
-          }
+          showError(field, "This field is required");
         }
       });
 
@@ -76,50 +100,12 @@ document.addEventListener("DOMContentLoaded", function () {
   if (passwordConfirm) {
     passwordConfirm.addEventListener("input", function () {
       const password = document.querySelector('input[name="password"]');
-      if (password.value !== this.value) {
+      if (password && password.value !== this.value) {
         this.setCustomValidity("Passwords do not match");
       } else {
         this.setCustomValidity("");
       }
     });
-  }
-
-  // Ticket quantity calculator
-  const ticketInputs = document.querySelectorAll(".ticket-quantity");
-  if (ticketInputs.length > 0) {
-    ticketInputs.forEach(function (input) {
-      input.addEventListener("change", calculateTotal);
-    });
-  }
-
-  // Calculate total for booking
-  function calculateTotal() {
-    let total = 0;
-    let totalTickets = 0;
-
-    ticketInputs.forEach(function (input) {
-      const quantity = parseInt(input.value) || 0;
-      const price = parseFloat(input.getAttribute("data-price")) || 0;
-      total += quantity * price;
-      totalTickets += quantity;
-    });
-
-    const totalElement = document.getElementById("total-amount");
-    const ticketCountElement = document.getElementById("ticket-count");
-
-    if (totalElement) {
-      totalElement.textContent = "£" + total.toFixed(2);
-    }
-    if (ticketCountElement) {
-      ticketCountElement.textContent = totalTickets;
-    }
-
-    // Check max tickets (8 per booking)
-    if (totalTickets > 8) {
-      alert("Maximum 8 tickets per booking");
-      event.target.value = 0;
-      calculateTotal();
-    }
   }
 
   // Image preview for file uploads
@@ -140,15 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Mobile menu toggle
-  const menuToggle = document.querySelector(".menu-toggle");
-  const navLinks = document.querySelector(".nav-links");
-  if (menuToggle && navLinks) {
-    menuToggle.addEventListener("click", function () {
-      navLinks.classList.toggle("active");
-    });
-  }
-
   // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
@@ -163,44 +140,45 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Add Christmas sparkle effect on buttons
+  // Add hover effects to buttons
   const buttons = document.querySelectorAll(".btn");
   buttons.forEach(function (btn) {
     btn.addEventListener("mouseenter", function () {
-      this.style.transform = "translateY(-2px) scale(1.02)";
+      this.style.transform = "translateY(-3px)";
     });
     btn.addEventListener("mouseleave", function () {
-      this.style.transform = "translateY(0) scale(1)";
+      this.style.transform = "translateY(0)";
     });
   });
 
-  console.log(
-    "🎄 London Community Park - Christmas Event Booking System Loaded! 🎄"
-  );
+  console.log("🎄 London Community Park - System Loaded! 🎄");
 });
 
-/**
- * Format currency
- * @param {number} amount - The amount to format
- * @returns {string} - Formatted currency string
- */
+// Helper Functions
+function showError(field, message) {
+  field.style.borderColor = "#c41e3a";
+  field.style.boxShadow = "0 0 0 3px rgba(196, 30, 58, 0.1)";
+
+  let errorMsg = field.parentNode.querySelector(".error-message");
+  if (!errorMsg) {
+    errorMsg = document.createElement("span");
+    errorMsg.className = "error-message";
+    errorMsg.style.cssText =
+      "color: #c41e3a; font-size: 0.85rem; display: block; margin-top: 5px;";
+    field.parentNode.appendChild(errorMsg);
+  }
+  errorMsg.textContent = message;
+}
+
+function removeError(field) {
+  field.style.borderColor = "#e0e0e0";
+  field.style.boxShadow = "none";
+  const errorMsg = field.parentNode.querySelector(".error-message");
+  if (errorMsg) {
+    errorMsg.remove();
+  }
+}
+
 function formatCurrency(amount) {
   return "£" + parseFloat(amount).toFixed(2);
-}
-
-/**
- * Show loading spinner
- * @param {HTMLElement} element - The element to show loading in
- */
-function showLoading(element) {
-  element.innerHTML = '<div class="loading">Loading... 🎅</div>';
-}
-
-/**
- * Hide loading spinner
- * @param {HTMLElement} element - The element to hide loading from
- * @param {string} content - The content to replace loading with
- */
-function hideLoading(element, content) {
-  element.innerHTML = content;
 }

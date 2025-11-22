@@ -105,7 +105,7 @@ function generateBookingReference() {
 /**
  * Format date for display
  * @param string $date - Date in Y-m-d format
- * @return string - Formatted date (e.g., "25th December 2024")
+ * @return string - Formatted date (e.g., "25th December 2025")
  */
 function formatDate($date) {
     return date('jS F Y', strtotime($date));
