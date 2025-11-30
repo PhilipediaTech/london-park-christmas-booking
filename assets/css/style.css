@@ -27,6 +27,7 @@
     --transition: all 0.3s ease;
 }
 
+
 /* ===== Reset & Base ===== */
 *, *::before, *::after {
     margin: 0;
@@ -42,8 +43,12 @@ html {
 body {
     font-family: 'Poppins', 'Segoe UI', sans-serif;
      background: 
-        linear-gradient(135deg, rgba(14, 131, 136, 0.92) 0%, rgba(46, 151, 167, 0.88) 50%, rgba(14, 131, 136, 0.92) 100%),
-        url('https://images.unsplash.com/photo-1512389142860-9c449e58a814?w=1920&q=80') center center / cover fixed;
+        linear-gradient(135deg, rgba(72, 73, 74, 0.88) 0%, rgba(15, 18, 21, 0.85) 50%, rgba(58, 62, 67, 0.88) 100%),
+        url('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80') center center / cover fixed;
+    background-attachment: fixed;
+    background-attachment: fixed;
+    background-attachment: fixed;
+    background-attachment: fixed;
     background-attachment: fixed;
     background-attachment: fixed;
     background-attachment: fixed;
@@ -80,12 +85,10 @@ body::before {
 
 /* ===== Navigation ===== */
 .navbar {
-    background: linear-gradient(135deg, var(--christmas-red) 0%, var(--christmas-red-dark) 100%);
-    padding: 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, #5B7C99 0%, #7FA3C3 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(91, 124, 153, 0.3);
 }
 
 .nav-container {
@@ -187,24 +190,7 @@ body::before {
     transition: var(--transition);
 }
 
-/* ===== Christmas Lights ===== */
-.christmas-lights {
-   height: 30px;
-    background: repeating-linear-gradient(
-        90deg,
-        #FF6B6B 0px, #FF6B6B 20px,
-        #0E8388 20px, #0E8388 40px,
-        #FFD93D 40px, #FFD93D 60px,
-        #A8E6CF 60px, #A8E6CF 80px,
-        #FFA07A 80px, #FFA07A 100px
-    );
-    animation: lights-blink 2s ease-in-out infinite alternate;
-}
 
-@keyframes lights-blink {
-    0% { opacity: 0.7; filter: brightness(0.9); }
-    100% { opacity: 1; filter: brightness(1.1); }
-}
 
 /* ===== Main Content ===== */
 .main-content {
@@ -833,12 +819,7 @@ tr:hover {
  */
 
 /* ===== Background with Christmas Image ===== */
-body {
-    background: 
-        linear-gradient(135deg, rgba(26, 71, 42, 0.92) 0%, rgba(45, 90, 61, 0.88) 50%, rgba(22, 91, 51, 0.92) 100%),
-        url('https://images.unsplash.com/photo-1512389142860-9c449e58a814?w=1920&q=80') center center / cover fixed;
-    background-attachment: fixed;
-}
+
 
 /* ===== Enhanced Snowfall Animation ===== */
 body::before {
@@ -1118,5 +1099,819 @@ body::after {
     }
     body::after {
         display: none;
+    }
+}
+
+
+
+/**
+ * ADD THIS TO THE END OF YOUR style.css
+ * Beautiful Animated Hero Slider
+ */
+
+/* ===== Hero Slider Container ===== */
+/**
+ * COMPLETE SLIDER CSS - SHARP & CLEAR IMAGES
+ * Find the slider CSS section in style.css and REPLACE everything from
+ * "/* ===== Hero Slider Container =====" to the end of slider styles
+ */
+
+/* ===== Hero Slider Container ===== */
+.hero-slider {
+    position: relative;
+    width: 100%;
+    height: 650px;
+    overflow: hidden;
+    background: #000;
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* ===== Individual Slides ===== */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 1;
+}
+
+.slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+/* ===== SHARP IMAGE SETTINGS ===== */
+.slide-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Remove animation for sharp images */
+    /* If you want, add back with: animation: kenburns-subtle 30s ease-in-out infinite; */
+    
+    /* Image quality improvements */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: auto;
+}
+
+/* ===== LIGHT OVERLAY - NOT TOO BRIGHT ===== */
+.slide-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Darker overlay for better text readability without washing out image */
+    background: linear-gradient(
+        to bottom, 
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.2) 50%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+    z-index: 1;
+}
+
+/* ===== Slide Content ===== */
+.slide-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 2;
+    width: 90%;
+    max-width: 900px;
+    padding: 20px;
+}
+
+.slide-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7),
+                 0 0 20px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+    font-family: 'Mountains of Christmas', cursive;
+}
+
+.slide-content p {
+    font-size: 1.4rem;
+    margin-bottom: 35px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8),
+                 0 0 15px rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.98);
+    font-weight: 500;
+}
+
+/* Text animations */
+.active .animate-text {
+    animation: slideInUp 1s ease-out;
+}
+
+.active .animate-text-delay {
+    animation: slideInUp 1s ease-out 0.3s both;
+}
+
+.active .animate-button {
+    animation: slideInUp 1s ease-out 0.6s both, pulse 2s ease-in-out 2s infinite;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Optional: Very subtle zoom (won't blur) */
+@keyframes kenburns-subtle {
+    0%, 100% { 
+        transform: scale(1) translateZ(0);
+    }
+    50% { 
+        transform: scale(1.02) translateZ(0);
+    }
+}
+
+/* ===== Slider Navigation Arrows ===== */
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+    z-index: 3;
+}
+
+.slider-arrow {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 3rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.slider-arrow:hover {
+    background: rgba(232, 184, 109, 0.9);
+    border-color: rgba(232, 184, 109, 1);
+    transform: scale(1.1);
+}
+
+.slider-arrow:active {
+    transform: scale(0.95);
+}
+
+/* ===== Slider Dots ===== */
+.slider-dots {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    z-index: 3;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.2);
+}
+
+.dot.active {
+    background: #E8B86D;
+    border-color: #E8B86D;
+    width: 40px;
+    border-radius: 10px;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 1024px) {
+    .hero-slider {
+        height: 550px;
+    }
+    
+    .slide-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .slide-content p {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-slider {
+        height: 500px;
+    }
+    
+    .slide-content h1 {
+        font-size: 2rem;
+    }
+    
+    .slide-content p {
+        font-size: 1rem;
+    }
+    
+    .slider-arrow {
+        width: 45px;
+        height: 45px;
+        font-size: 2rem;
+    }
+    
+    .slider-nav {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-slider {
+        height: 400px;
+    }
+    
+    .slide-content h1 {
+        font-size: 1.5rem;
+    }
+    
+    .slide-content p {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+}
+
+
+
+/**
+ * COMPLETE RESPONSIVE DESIGN
+ * Add this to the END of your style.css file
+ */
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Extra Large Screens (1400px+) */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1320px;
+    }
+}
+
+/* Large Tablets & Small Desktops (992px - 1199px) */
+@media (max-width: 1199px) {
+    .container {
+        max-width: 960px;
+    }
+    
+    .events-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+    }
+    
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero p {
+        font-size: 1.1rem;
+    }
+}
+
+/* Tablets (768px - 991px) */
+@media (max-width: 991px) {
+    .container {
+        max-width: 720px;
+        padding: 15px;
+    }
+    
+    /* Navigation becomes mobile menu */
+    .mobile-menu-btn {
+        display: flex;
+    }
+    
+    .nav-container {
+        position: relative;
+    }
+    
+    .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(91, 124, 153, 0.98);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        gap: 10px;
+        border-radius: 0 0 20px 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+    
+    .nav-links li {
+        width: 100%;
+    }
+    
+    .nav-links li a {
+        width: 100%;
+        justify-content: center;
+        padding: 15px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+    }
+    
+    /* Cards stack */
+    .events-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    /* Typography adjustments */
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .card-body {
+        padding: 25px;
+    }
+    
+    /* Tables scroll horizontally */
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    table {
+        min-width: 600px;
+        font-size: 0.9rem;
+    }
+    
+    th, td {
+        padding: 12px 10px;
+    }
+}
+
+/* Mobile Landscape (576px - 767px) */
+@media (max-width: 767px) {
+    html {
+        font-size: 15px;
+    }
+    
+    .container {
+        max-width: 540px;
+        padding: 12px;
+    }
+    
+    .logo-text {
+        font-size: 1.1rem;
+    }
+    
+    .logo-icon {
+        font-size: 1.5rem;
+    }
+    
+    /* Hero section */
+    .hero {
+        padding: 30px 15px;
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .hero p {
+        font-size: 0.95rem;
+    }
+    
+    /* Events grid - single column */
+    .events-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Stats grid */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .stat-card {
+        padding: 20px 15px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    /* Cards */
+    .card-header {
+        padding: 20px 15px;
+    }
+    
+    .card-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .card-body {
+        padding: 20px 15px;
+    }
+    
+    /* Forms */
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .form-control {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .btn-block {
+        width: 100%;
+    }
+    
+    /* Event cards */
+    .event-image {
+        height: 180px;
+        font-size: 3.5rem;
+    }
+    
+    .event-details {
+        padding: 20px;
+    }
+    
+    .event-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    /* Tables */
+    table {
+        font-size: 0.85rem;
+    }
+    
+    th, td {
+        padding: 10px 8px;
+    }
+    
+    /* Action buttons stack */
+    .action-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 30px 15px;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+/* Small Mobile (480px - 575px) */
+@media (max-width: 575px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    /* Navigation brand */
+    .navbar-brand {
+        gap: 8px;
+    }
+    
+    .logo-text {
+        font-size: 1rem;
+    }
+    
+    .logo-icon {
+        font-size: 1.3rem;
+    }
+    
+    .nav-container {
+        padding: 12px 15px;
+    }
+    
+    /* Hero */
+    .hero {
+        padding: 25px 12px;
+    }
+    
+    .hero h1 {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+    
+    .hero p {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+    
+    /* Event cards */
+    .event-image {
+        height: 150px;
+        font-size: 3rem;
+    }
+    
+    .event-details {
+        padding: 15px;
+    }
+    
+    .event-details h3 {
+        font-size: 1.1rem;
+    }
+    
+    .event-price {
+        font-size: 1.3rem;
+    }
+    
+    /* Cards */
+    .card-header {
+        padding: 18px 12px;
+    }
+    
+    .card-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    .card-body {
+        padding: 15px 12px;
+    }
+    
+    /* Stats */
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+    }
+    
+    /* Forms */
+    .form-control {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    /* Auth pages */
+    .auth-card {
+        max-width: 100%;
+    }
+}
+
+/* Extra Small Mobile (below 400px) */
+@media (max-width: 399px) {
+    html {
+        font-size: 13px;
+    }
+    
+    .hero h1 {
+        font-size: 1.3rem;
+    }
+    
+    .hero p {
+        font-size: 0.85rem;
+    }
+    
+    .logo-text {
+        display: none; /* Hide text on very small screens */
+    }
+    
+    .stat-number {
+        font-size: 1.6rem;
+    }
+    
+    .event-image {
+        height: 130px;
+        font-size: 2.5rem;
+    }
+    
+    .btn {
+        padding: 9px 15px;
+        font-size: 0.85rem;
+    }
+}
+
+/* ===== SPECIFIC COMPONENT RESPONSIVE FIXES ===== */
+
+/* Booking Summary - Mobile */
+@media (max-width: 767px) {
+    .booking-summary {
+        padding: 15px;
+    }
+    
+    .summary-row {
+        flex-direction: column;
+        gap: 5px;
+        padding: 8px 0;
+    }
+    
+    .summary-total {
+        font-size: 1.3rem;
+    }
+}
+
+/* Admin Dashboard - Mobile */
+@media (max-width: 767px) {
+    /* Make data tables scrollable */
+    .table-container {
+        border-radius: 8px;
+    }
+    
+    /* Reduce font in admin tables */
+    .admin-table {
+        font-size: 0.8rem;
+    }
+}
+
+/* Auth Pages - Mobile */
+@media (max-width: 575px) {
+    .auth-container {
+        padding: 20px 10px;
+    }
+    
+    .auth-card {
+        box-shadow: none;
+    }
+}
+
+/* Payment Page - Mobile */
+@media (max-width: 991px) {
+    .payment-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ===== LANDSCAPE ORIENTATION ===== */
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero {
+        padding: 20px 15px;
+    }
+    
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+    
+    .auth-container {
+        padding: 20px 15px;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .navbar, 
+    .christmas-lights, 
+    .footer, 
+    .btn, 
+    .slider-nav,
+    .slider-dots,
+    .mobile-menu-btn {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+    }
+    
+    body::before,
+    body::after {
+        display: none !important;
+    }
+    
+    .card {
+        break-inside: avoid;
+        box-shadow: none !important;
+        border: 1px solid #ddd;
+    }
+}
+
+/* ===== REDUCE ANIMATIONS ON MOBILE FOR PERFORMANCE ===== */
+@media (max-width: 767px) {
+    /* Disable heavy animations on mobile */
+    body::before {
+        animation: none !important;
+        opacity: 0.2;
+    }
+    
+    body::after {
+        display: none !important;
+    }
+    
+    .slide-image {
+        animation: none !important;
+    }
+    
+    * {
+        animation-duration: 0.3s !important;
+        transition-duration: 0.3s !important;
+    }
+}
+
+/* ===== ACCESSIBILITY - HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+    .card {
+        border: 2px solid #000;
+    }
+    
+    .btn {
+        border: 2px solid currentColor;
+    }
+}
+
+/* ===== ACCESSIBILITY - REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .slide-image {
+        animation: none !important;
     }
 }

@@ -67,7 +67,7 @@ $userFirstName = isset($_SESSION['first_name']) ? $_SESSION['first_name'] : '';
     </nav>
     
     <!-- Christmas Lights Decoration -->
-    <div class="christmas-lights"></div>
+    <!-- <div class="christmas-lights"></div> -->
     
     <!-- Main Content -->
     <main class="main-content">

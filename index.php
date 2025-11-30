@@ -15,16 +15,83 @@ $featuredEvents = array_slice($events, 0, 3);
 ?>
 
 <!-- Hero Section -->
-<section class="hero">
-    <div class="container">
-        <h1>🎄 Welcome to London Community Park 🎄</h1>
-        <p>Experience the magic of Christmas with our spectacular events and attractions!</p>
-        <p>Book your tickets online and avoid the queues this festive season.</p>
-        <a href="<?php echo SITE_URL; ?>/events.php" class="btn btn-gold" style="font-size: 1.2rem; padding: 15px 40px;">
-            🎫 Browse Christmas Events
-        </a>
+<!-- REPLACE THE HERO SECTION in index.php with this -->
+
+<!-- Animated Hero Slider -->
+<!-- REPLACE THE HERO SLIDER SECTION in index.php with this -->
+
+<!-- Animated Hero Slider -->
+<section class="hero-slider">
+    <div class="slider-container">
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <div class="slide-image" style="background-image: url('<?php echo SITE_URL; ?>/assets/images/slider/slide1.jpg');"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h1 class="animate-text">🎄 Welcome to Christmas Magic 🎄</h1>
+                <p class="animate-text-delay">Experience the wonder of the season at London Community Park</p>
+                <a href="<?php echo SITE_URL; ?>/events.php" class="btn btn-gold animate-button">
+                    🎫 Book Your Tickets Now
+                </a>
+            </div>
+        </div>
+        
+        <!-- Slide 2 -->
+        <div class="slide">
+            <div class="slide-image" style="background-image: url('<?php echo SITE_URL; ?>/assets/images/slider/slide2.jpg');"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h1 class="animate-text">✨ Festive Events Await ✨</h1>
+                <p class="animate-text-delay">From carol concerts to Santa's wonderland - magic for everyone!</p>
+                <a href="<?php echo SITE_URL; ?>/events.php" class="btn btn-gold animate-button">
+                    🎪 Explore Events
+                </a>
+            </div>
+        </div>
+        
+        <!-- Slide 3 -->
+        <div class="slide">
+            <div class="slide-image" style="background-image: url('<?php echo SITE_URL; ?>/assets/images/slider/slide3.jpg');"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h1 class="animate-text">🎅 Meet Santa & More 🎅</h1>
+                <p class="animate-text-delay">Create unforgettable memories with your loved ones this Christmas</p>
+                <a href="<?php echo SITE_URL; ?>/register.php" class="btn btn-gold animate-button">
+                    📝 Join Us Today
+                </a>
+            </div>
+        </div>
+        
+        <!-- Slide 4 -->
+        <div class="slide">
+            <div class="slide-image" style="background-image: url('<?php echo SITE_URL; ?>/assets/images/slider/slide4.jpg');"></div>
+            <div class="slide-overlay"></div>
+            <div class="slide-content">
+                <h1 class="animate-text">🎆 Ring in the New Year 🎆</h1>
+                <p class="animate-text-delay">Celebrate New Year's Eve with fireworks, music, and champagne</p>
+                <a href="<?php echo SITE_URL; ?>/events.php" class="btn btn-gold animate-button">
+                    🎉 Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slider Navigation -->
+    <div class="slider-nav">
+        <button class="slider-arrow prev" onclick="changeSlide(-1)">‹</button>
+        <button class="slider-arrow next" onclick="changeSlide(1)">›</button>
+    </div>
+    
+    <!-- Slider Dots -->
+    <div class="slider-dots">
+        <span class="dot active" onclick="goToSlide(0)"></span>
+        <span class="dot" onclick="goToSlide(1)"></span>
+        <span class="dot" onclick="goToSlide(2)"></span>
+        <span class="dot" onclick="goToSlide(3)"></span>
     </div>
 </section>
+
+<!-- Rest of your index.php content continues here... -->
 
 <div class="container">
     
